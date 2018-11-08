@@ -1,0 +1,24 @@
+{
+  "name": "glitterbomb",
+  "version": "0.2.0",
+  "description": "Glitterbomb is the premier place to get glittered envelopes.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "request-promise": "^4.2.2"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "Pratik Shah",
+  "contributors": [],
+  "license": "MIT"
+}

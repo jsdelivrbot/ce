@@ -1,0 +1,24 @@
+{
+  "name": "analytics-dashboard",
+  "version": "1.0.0",
+  "description": "dashboard for access to your experiments.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": ""
+  },
+  "keywords": [
+    "ab",
+    "testing",
+    "experiment"
+  ],
+  "author": "pratik shah",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.10",
+    "ejs": "^2.6.1"
+  }
+}

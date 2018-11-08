@@ -1,0 +1,137 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<head xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <link rel="stylesheet" type="text/css" href="css/glitterbomb.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+      <script  src="./js/ce.js"></script>
+
+    <script>
+
+      // set variants and experimentId from config panel
+      const experimentId = "";
+      const variantA = 'With Herpes Copy"';
+      const variantB = 'WIthout Herpes Copy';
+
+      $(window).load(function (event) {
+
+        function setExperimentCookies(variant, trackerId){
+          window.Cookies.set( 'variant', variant, { expires: 10000, path: window.location.pathname});
+          window.Cookies.set('trackerId', trackerId, { expires: 10000, path: window.location.pathname});
+          window.Cookies.set('experiment', experimentId, { expires: 10000, path: window.location.pathname});
+        }
+
+        //Check if user is a first time visitor or has refreshed.
+        function experimentCookieExists(){
+          let cookieExists = window.Cookies.get('experiment');
+          if(typeof(cookieExists) === 'undefined') {
+            $('#experimentGroup').text('none');
+            return false;
+          }
+          else {
+            let cookieExists = window.Cookies.get('experiment');
+            return true;
+          }
+        }
+
+        function domChangeBasedOnVariant(variant) {
+
+          //toggle our copy based on variant
+          if(variant === variantA){
+            $('#glitter_message').text('Glitter is the herpes of the crafting world.');
+
+          } else if(variant === variantB){
+            $('#glitter_message').text('Broken glass. It’s just like glitter.');
+          }
+        }
+
+        if(!experimentCookieExists()) {
+
+          ce.getExperiment()
+            .then((experiment) => {
+
+              const trackerId = experiment.data.trackerId;
+              const variant = experiment.data.variant;
+
+              if(experiment.statusCode === 404){
+                console.log('sorry this experiment has not been set up. check your experimentId in the ce.js client.')
+              } else {
+
+                //update dom based on variant
+                domChangeBasedOnVariant(variant);
+
+                //set cookies
+                setExperimentCookies(variant, trackerId);
+
+                //set indicator
+                $('#experimentGroup').text(variant);
+
+                //Send pageview analytic event information
+                ce.eventTracker('pageview', experimentId, variant, trackerId);
+
+              }})
+            .then((variant) => {console.log(`Updated user experience to variant ${variant}`)})
+            .catch((err) => {console.error(err.message);});
+        } else{
+          let variantName = window.Cookies.get('variant');
+          $('#experimentGroup').text(variantName);
+
+        }
+      });
+
+
+        function onOrderSubmit(event) {
+            event.preventDefault();
+          if(!$('input').val()){
+              $('#error_message').text('Please fill out all fields.');
+            } else {
+              const trackerId = window.Cookies.get('trackerId');
+              const variant = window.Cookies.get('variant');
+              let formData = $('#glitter_form').serializeArray();
+              ce.eventTracker('submit', experimentId, variant, trackerId, formData);
+              alert('Your order was successful!');
+              $('input#address').val("");
+              $('input#name').val("");
+            }
+        }
+
+    </script>
+
+</head>
+
+<body id="glitter_body">
+<h1 align="center">Welcome to GlitterBomb</h1>
+<div id="glitter_info" align="center">
+    <h3 id="glitter_message">Glitter is the herpes of the crafting world.</h3>
+</div>
+<form id="glitter_form" onsubmit="onOrderSubmit(event)" class="glitter_form">
+    <label>
+        <span>Your Name :</span>
+        <input id="name" type="text" name="name"/>
+    </label>
+
+    <label>
+        <span>Your Address :</span>
+        <input id="address" type="text" name="address"/>
+    </label>
+    <label>
+        <span>Select Glitter:</span>
+        <select id="color" name="color">
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="pink">Pink</option>
+        </select>
+    </label>
+    <div id="order_button" align="center">
+    <label>
+        <input type="submit" class="button" value="Order Now!"/>
+    </label>
+    </div>
+    <div id="message"><h4 id="error_message"></h4></div>
+
+    <span>Experiment Group:</span>
+    <div><p id="experimentGroup"></p></div>
+</form>
+</body>
+</html>

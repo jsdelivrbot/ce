@@ -1,0 +1,29 @@
+version: '2'
+services:
+  db:
+    image: mongo:latest
+    container_name: mongo-database
+    ports:
+      - "27017:27017"
+  platform:
+    build: "."
+    image: conscious_experiment_platform
+    command: "npm start"
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=db
+    links:
+      - db
+    environment:
+      - "REACT_APP_API_URL=http://localhost:3000"
+  analytics:
+    build: './analytics-dashboard'
+    image: conscious_experiment_analytics
+    command:  "npm start"
+    environment:
+      - MONGO_URL=db
+    links:
+      - db
+    ports:
+      - "9000:9000"

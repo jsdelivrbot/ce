@@ -1,0 +1,100 @@
+<html>
+<title>Conscious Experiment Analytics</title>
+<style>
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+<script src="http://www.chartjs.org/dist/2.7.1/Chart.bundle.js"></script>
+<script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
+
+<script>
+
+ let views = 0;
+ let groupACount = 0;
+ let groupBCount = 0;
+ let groupAConverted = 0;
+ let groupBConverted = 0;
+ let percentageOfGroupBConversions = 0;
+ let percentageOfGroupAConversions = 0;
+
+
+
+
+ $(window).on('load',setChart);
+
+ function setChart(){
+
+      <%= views %>
+     <%= groupACount %>
+     <%= groupBCount %>
+     <%= groupAConverted %>
+     <%= groupBConverted %>
+    const data = [
+        <%= views %>,
+        <%= groupACount %>,
+        <%= groupBCount %>,
+        <%= groupAConverted %>,
+        <%= groupBConverted %>
+    ];
+    let labelNames = [
+      `Visitors:  <%= views %>`,
+      `Group A Views:  <%= groupACount %>`,
+      `Group B Views:  <%= groupBCount %>`,
+      `Group A Conversions:  <%= groupAConverted %>    <%= percentageOfGroupAConversions %>%`,
+      `Group B Conversions:  <%= groupBConverted %>    <%= percentageOfGroupBConversions %>%`
+    ];
+     let ctx = document.getElementById("canvas").getContext('2d');
+     let myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+         labels: labelNames,
+         datasets: [{
+           label: 'Total Unique PageViews',
+           data: data,
+           backgroundColor: [
+             'rgba(255, 99, 132, 0.2)',
+             'rgba(54, 162, 235, 0.2)',
+             'rgba(255, 206, 86, 0.2)',
+             'rgba(75, 192, 192, 0.2)'
+           ],
+           borderColor: [
+             'rgba(255,99,132,1)',
+             'rgba(54, 162, 235, 1)',
+             'rgba(255, 206, 86, 1)',
+             'rgba(75, 192, 192, 1)'
+           ],
+           borderWidth: 1
+         }]
+       },
+       options: {
+         scales: {
+           yAxes: [{
+             ticks: {
+               beginAtZero:true
+             }
+           }]
+         },
+         responsive:true,
+         maintainAspectRatio: false
+       }
+     });
+       views = 0;
+       groupACount = 0;
+       groupBCount = 0;
+       groupAConverted=0;
+       groupBConverted=0;
+       percentageOfGroupBConversions=0;
+       percentageOfGroupAConversions=0;
+
+     myChart.update({duration:0});
+ }
+
+
+</script>
+<body>
+</div>
+<div class="chart-container" style="position: relative; height:100vh; width:100vw">
+<canvas id="canvas"></canvas>
+</div>
+
+</body>
+</html>
