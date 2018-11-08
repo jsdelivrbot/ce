@@ -6,13 +6,19 @@ import FormExperiment from '../FormExperiment/FormExperiment';
 class ModalExperiment extends Component {
 
   render() {
-
+    const Style = {
+      margin: '0',
+      position: 'fixed',
+      left: '30%',
+      top: '36%',
+    };
     return (
       <Modal
         trigger={<Button color={this.props.buttonColor}>{this.props.buttonTriggerTitle}</Button>}
         dimmer='inverted'
-        size='tiny'
+        size='large'
         closeIcon='close'
+        style={Style}
       >
         <Modal.Header>{this.props.headerTitle}</Modal.Header>
         <Modal.Content>

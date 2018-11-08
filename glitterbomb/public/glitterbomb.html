@@ -9,7 +9,7 @@
 
     <script>
 
-      // set variants and experimentId from config panel
+      // set variants and experimentId and variant names here
       const experimentId = "";
       const variantA = 'With Herpes Copy"';
       const variantB = 'WIthout Herpes Copy';
@@ -26,7 +26,7 @@
         function experimentCookieExists(){
           let cookieExists = window.Cookies.get('experiment');
           if(typeof(cookieExists) === 'undefined') {
-            $('#experimentGroup').text('none');
+            $('#experimentGroup').text('update file');
             return false;
           }
           else {
