@@ -9,10 +9,10 @@
 
     <script>
 
-      // set variants and experimentId and variant names here
-      const experimentId = "";
+      // set variants and experimentId from config panel
+      const experimentId = "5be48a98e37426001f31bed1";
       const variantA = 'With Herpes Copy"';
-      const variantB = 'Without Herpes Copy';
+      const variantB = 'WIthout Herpes Copy';
 
       $(window).load(function (event) {
 
@@ -26,7 +26,7 @@
         function experimentCookieExists(){
           let cookieExists = window.Cookies.get('experiment');
           if(typeof(cookieExists) === 'undefined') {
-            $('#experimentGroup').text('update file');
+            $('#experimentGroup').text('No Experiment: Update File.');
             return false;
           }
           else {
@@ -130,8 +130,9 @@
     </div>
     <div id="message"><h4 id="error_message"></h4></div>
 
-    <span>Experiment Group:</span>
+    <label>
     <div><p id="experimentGroup"></p></div>
+    </label>
 </form>
 </body>
 </html>
